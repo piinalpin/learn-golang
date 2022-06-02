@@ -36,7 +36,7 @@ ls -l /opt/cni/bin
 ls -l /usr/lib/cni
 ```
 
-Using git, clone `https://github.com/containers/dnsname.git` and change line at `Makefile`
+Using git, clone `https://github.com/containers/dnsname.git` see [README_PODMAN.md](https://github.com/containers/dnsname/blob/main/README_PODMAN.md) and change line at `Makefile`
 
 ```bash
 ...
