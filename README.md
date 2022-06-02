@@ -73,7 +73,7 @@ Create new network `podman network create my-network`
 
 Update configuration `my-network` at `$HOME/.config/cni/net.d/my-network.conflist`
 
-```json
+```bash
 {
   "cniVersion": "0.4.0",
   "name": "my-network",
@@ -86,6 +86,7 @@ Update configuration `my-network` at `$HOME/.config/cni/net.d/my-network.conflis
            "aliases": true
         }
      }
+     ...
   ]
 }
 ```
