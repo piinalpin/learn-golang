@@ -1,11 +1,11 @@
-package dao
+package model
 
 import (
-	"learn-rest-api/cmd/app/domain/base"
+	"learn-rest-api/cmd/app/model/base"
 )
 
 type Author struct {
-	base.BaseDao
+	base.BaseModel
 	ID uint `json:"id" gorm:"primary_key; autoIncrement; not null"`
 	Name string `json:"name" gorm:"not null; size:255"`
 }
