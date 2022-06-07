@@ -2,25 +2,28 @@ package repository
 
 import (
 	"learn-rest-api/cmd/app/model"
-	"learn-rest-api/config"
 	"log"
 
 	"gorm.io/gorm"
 )
 
-type AuthorRepository struct {
-	Db *gorm.DB
+type AuthorRepository interface {
+	FindAllAuthors() []model.Author
 }
 
-func AuthorRepositoryInit() *AuthorRepository {
-	var db = config.InitDB()
+type authorRepository struct {
+	db *gorm.DB
+}
+
+func AuthorRepositoryInit(db *gorm.DB) AuthorRepository {
 	db.AutoMigrate(&model.Author{})
-	return &AuthorRepository{Db: db}
+	return &authorRepository{db: db}
 }
 
-func (repository *AuthorRepository) FindAllAuthors() []model.Author {
+// FindAllAuthors implements AuthorRepository
+func (a *authorRepository) FindAllAuthors() []model.Author {
 	var authors []model.Author
-	var err = repository.Db.Find(&authors).Error
+	var err = a.db.Find(&authors).Error
 	if err != nil {
 		log.Panic("Error finding all authors. Error: ", err)
 	}

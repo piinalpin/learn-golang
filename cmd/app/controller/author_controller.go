@@ -9,8 +9,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type AuthorController struct {}
+type AuthorController interface {
+	GetAllAuthor(c *gin.Context)
+	CreateAuthor(c *gin.Context)
+}
 
-func (a AuthorController) GetAllAuthor(c *gin.Context) {
-	service.GetAllAuthor(c)
+type authorController struct {
+	svc service.AuthorService
+}
+
+func AuthorControllerInit(s service.AuthorService) AuthorController {
+	return &authorController{
+		svc: s,
+	}
+}
+
+// CreateAuthor implements AuthorController
+func (a *authorController) CreateAuthor(c *gin.Context) {
+	a.svc.CreateAuthor(c)
+}
+
+// GetAllAuthor implements AuthorController
+func (a *authorController) GetAllAuthor(c *gin.Context) {
+	a.svc.GetAllAuthor(c)
 }

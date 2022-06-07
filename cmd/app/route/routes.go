@@ -1,12 +1,13 @@
 package route
 
 import (
-	"learn-rest-api/cmd/app/controller"
-	"github.com/gin-gonic/gin"
+	"learn-rest-api/config"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func Router() *gin.Engine {
+func Router(init *config.Initialization) *gin.Engine {
 	var router = gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
@@ -20,8 +21,8 @@ func Router() *gin.Engine {
 
 		var author = api.Group("/author")
 		{
-			var authorController = new (controller.AuthorController)
-			author.GET("", authorController.GetAllAuthor)
+			author.GET("", init.AuthorCtrl.GetAllAuthor)
+			author.POST("", init.AuthorCtrl.CreateAuthor)
 		}
 
 	}
