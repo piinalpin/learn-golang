@@ -7,7 +7,7 @@ import (
 	"learn-rest-api/cmd/app/repository"
 	"learn-rest-api/cmd/app/validator"
 	"learn-rest-api/pkg"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,16 +32,20 @@ func AuthorServiceInit(r repository.AuthorRepository) AuthorService {
 func (a *authorService) CreateAuthor(c *gin.Context) {
 	defer exception.AppExceptionHandler(c)
 
-	log.Print("Create user")
+	log.Info("Create user")
 	var authorForm form.AuthorForm
 	validator.BindJSON(c, &authorForm)
-	log.Default().Print("Author form: ", authorForm)
+	
+	log.Debug("Author form:: ", authorForm)
+	log.Error("LOG ERROR NIH")
+	log.Trace("LOG TRACE")
+	log.Warn("LOG WARN")
 	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, pkg.Null()))
 }
 
 // GetAllAuthor implements AuthorService
 func (a *authorService) GetAllAuthor(c *gin.Context) {
-	log.Print("Get all authors")
+	log.Info("Get all author")
 	var authors = a.repository.FindAllAuthors()
 	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, authors))
 }

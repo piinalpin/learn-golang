@@ -9,22 +9,23 @@ import (
 )
 
 type Initialization struct {
-	db *gorm.DB
+	db         *gorm.DB
 	authorRepo repository.AuthorRepository
-	authorSvc service.AuthorService
-	
+	authorSvc  service.AuthorService
+
 	AuthorCtrl controller.AuthorController
 }
 
 func Init() *Initialization {
+	InitLog()
 	db := InitDB()
 	authorRepo := repository.AuthorRepositoryInit(db)
 	authorSvc := service.AuthorServiceInit(authorRepo)
 	authorCtrl := controller.AuthorControllerInit(authorSvc)
 	return &Initialization{
-		db: db,
+		db:         db,
 		authorRepo: authorRepo,
-		authorSvc: authorSvc,
+		authorSvc:  authorSvc,
 		AuthorCtrl: authorCtrl,
 	}
 }
