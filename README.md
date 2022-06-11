@@ -1,4 +1,35 @@
-# Learn REST API Golang using Gin
+# Learn RestFul API Golang using Gin
+
+## Overview
+
+![Golang](https://www.seekpng.com/png/detail/399-3990193_building-a-go-web-app-from-scratch-to.png)
+
+This project is documentation of my learning Golang with the best practice based on [Standard Go Project Layout](https://github.com/golang-standards/project-layout/), by Kyle Quest.
+
+## Features
+- [Gin Web Framework](https://gin-gonic.com/)
+- [GORM](https://gorm.io/index.html)
+- Custom Soft Deleted
+   - `CreatedAt`
+   - `CreatedBy`
+   - `UpdatedAt`
+   - `DeletedAt`
+- Base Api Response
+   ```json
+      {
+         "timestamp": "",
+         "response_key": "",
+         "message": "",
+         "data": {}
+      }
+   ```
+- Custom Exception and Exception Handler
+- [Golang Enumerations](https://levelup.gitconnected.com/implementing-enums-in-golang-9537c433d6e2)
+- [Golang Generic](https://go.dev/doc/tutorial/generics)
+- [Package Validator](https://pkg.go.dev/github.com/go-playground/validator/v10)
+- [Logrus](https://pkg.go.dev/github.com/sirupsen/logrus)
+- Containerized Support
+- Read Environment Variables
 
 ## How to Run?
 
@@ -96,3 +127,7 @@ Run container application
 ```bash
 podman run -d --name learn_go -p 8080:8080 --env-file=dev.env --network my-network learn-rest-api
 ```
+
+## Reference
+- [Dasar Pemrograman Golang](https://dasarpemrogramangolang.novalagung.com/)
+- 
