@@ -130,4 +130,4 @@ podman run -d --name learn_go -p 8080:8080 --env-file=dev.env --network my-netwo
 
 ## Reference
 - [Dasar Pemrograman Golang](https://dasarpemrogramangolang.novalagung.com/)
-- 
+- [Golang: gorm with MySQL and gin](https://blog.canopas.com/golang-gorm-with-mysql-and-gin-ab876f406244)
