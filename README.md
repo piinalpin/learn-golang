@@ -8,7 +8,7 @@ This project is documentation of my learning Golang with the best practice based
 
 ## Features
 - [Gin Web Framework](https://gin-gonic.com/)
-- [GORM](https://gorm.io/index.html)
+- [GORM](https://gorm.io/index.html) MySQL Database Driver
 - Custom Soft Deleted
    - `CreatedAt`
    - `CreatedBy`
