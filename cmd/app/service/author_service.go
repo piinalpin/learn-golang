@@ -3,12 +3,15 @@ package service
 import (
 	"learn-rest-api/cmd/app/constant"
 	"learn-rest-api/cmd/app/exception"
+	"learn-rest-api/cmd/app/factory"
 	"learn-rest-api/cmd/app/form"
+	"learn-rest-api/cmd/app/model"
 	"learn-rest-api/cmd/app/repository"
 	"learn-rest-api/cmd/app/validator"
 	"learn-rest-api/pkg"
-	log "github.com/sirupsen/logrus"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,18 +37,21 @@ func (a *authorService) CreateAuthor(c *gin.Context) {
 
 	log.Info("Create user")
 	var authorForm form.AuthorForm
+	var author model.Author
 	validator.BindJSON(c, &authorForm)
 	
 	log.Debug("Author form:: ", authorForm)
-	log.Error("LOG ERROR NIH")
-	log.Trace("LOG TRACE")
-	log.Warn("LOG WARN")
-	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, pkg.Null()))
+	author = factory.AuthorModelFactory(authorForm)
+
+	log.Info("Saving author")
+	author = a.repository.SaveAuthor(&author)
+	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, author))
 }
 
 // GetAllAuthor implements AuthorService
 func (a *authorService) GetAllAuthor(c *gin.Context) {
 	log.Info("Get all author")
 	var authors = a.repository.FindAllAuthors()
+	log.Info("Authors size: ", len(authors))
 	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, authors))
 }

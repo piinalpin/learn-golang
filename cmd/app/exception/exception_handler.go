@@ -23,10 +23,11 @@ func AppExceptionHandler(c *gin.Context) {
 		fmt.Printf("MSG::: %s", msg)
 		switch key {
 			case 
-				respkey.UnknownError.GetKey():
-				c.JSON(http.StatusInternalServerError, pkg.BuildResponse_(key, msg, pkg.Null()))
-			default:
+				respkey.DataNotFound.GetKey(),
+				respkey.InvalidRequest.GetKey():
 				c.JSON(http.StatusBadRequest, pkg.BuildResponse_(key, msg, pkg.Null()))
+			default:
+				c.JSON(http.StatusInternalServerError, pkg.BuildResponse_(respkey.UnknownError.GetKey(), msg, pkg.Null()))
 		}
 		
 	}
