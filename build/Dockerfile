@@ -2,8 +2,9 @@
 FROM alpine:3.16.0
 
 WORKDIR /app
+ARG APP_NAME
 
-COPY bin/learn-rest-api goapp
+COPY bin/${APP_NAME} goapp
 
 EXPOSE 8080
 ENTRYPOINT ./goapp

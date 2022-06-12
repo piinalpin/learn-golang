@@ -31,8 +31,36 @@ This project is documentation of my learning Golang with the best practice based
 - Containerized Support
 - Read Environment Variables
 
-## How to Run?
+## Usage
 
+I use `Makefile` to simplify command line usage. Change line before build the application. Change binary filename according target operating system and target architecture.
+
+```Makefile
+BIN := goapp.exe
+VERSION := 1.0.0
+TARGET_OS := windows
+TARGET_ARCH := amd64
+```
+
+|TARGET OS|TARGET ARCH|
+|---|---|
+|android|arm|
+|linux|amd64|
+|linux|arm|
+|linux|arm64|
+|linux|386|
+|windows|amd64|
+|windows|386|
+|etc.|etc.|
+
+The command is :
+
+- `make build` to build binary file
+- `make clean` to clean package and remove binary file
+- `make docker` it will execute command `clean` and `build` and then build image with `docker` command
+- `make podman` it will execute command `clean` and `build` and then build image with `podman` command
+
+Run application directly
 ```bash
 go run main.go
 ```
