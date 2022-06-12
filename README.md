@@ -70,15 +70,15 @@ go run main.go
 ### Build binary and images
 
 ```bash
-CGO_ENABLED=0 go build -o bin/learn-rest-api
+CGO_ENABLED=0 go build -o bin/goapp
 
-docker build -t learn-rest-api:latest . -f build/Dockerfile
+docker build -t goapp:latest . -f build/Dockerfile
 ```
 
 ### Run container using Docker
 
 ```bash
-docker run -d --name learn_go -p 8080:8080 --env-file=dev.env --network my-network learn-rest-api
+docker run -d --name goapp -p 8080:8080 --env-file=dev.env --network my-network goapp
 ```
 
 ### Run container using Podman (Arch Linux)
@@ -153,7 +153,7 @@ Update configuration `my-network` at `$HOME/.config/cni/net.d/my-network.conflis
 Run container application
 
 ```bash
-podman run -d --name learn_go -p 8080:8080 --env-file=dev.env --network my-network learn-rest-api
+podman run -d --name goapp -p 8080:8080 --env-file=dev.env --network my-network goapp
 ```
 
 ## Reference
