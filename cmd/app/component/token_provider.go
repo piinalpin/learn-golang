@@ -1,6 +1,8 @@
 package component
 
 import (
+	respkey "learn-rest-api/cmd/app/constant"
+	"learn-rest-api/cmd/app/exception"
 	"learn-rest-api/cmd/app/repository"
 	"os"
 	"time"
@@ -12,13 +14,13 @@ import (
 
 type JwtCustomClaims struct {
 	jwt.StandardClaims
-	Roles string
+	Roles string `json:"roles"`
 }
 
-type Token struct {
-	AccessToken  string
-	RefreshToken string
-	ExpiresAt    int64
+type TokenData struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	ExpiresAt    int64  `json:"expires_at"`
 }
 
 type tokenProvider struct {
@@ -26,31 +28,35 @@ type tokenProvider struct {
 }
 
 type TokenProvider interface {
-	GenerateAccessToken(username string) Token
-	IsTokenExpired(claims *JwtCustomClaims)
-	ValidateAccessToken(token string) (claims *JwtCustomClaims, err string)
+	GenerateAccessToken(username string) TokenData
+	ValidateAccessToken(accessToken string)
 }
+
+var JWT_SIGNED_KEY string
+var JWT_ISSUER string
 
 func TokenProviderInit(r repository.UserRepository) TokenProvider {
 	godotenv.Load()
+	JWT_SIGNED_KEY = os.Getenv("jwt.signed-key")
+	JWT_ISSUER = os.Getenv("APPLICATION_NAME")
 	return &tokenProvider{
 		userRepo: r,
 	}
 }
 
-var JWT_SIGNED_KEY string = os.Getenv("jwt.signed-key")
-
 // GenerateAccessToken implements TokenProvider
-func (t *tokenProvider) GenerateAccessToken(username string) Token {
+func (t *tokenProvider) GenerateAccessToken(username string) TokenData {
 	claims := &JwtCustomClaims{
 		Roles: "ROLE_ADMIN",
 		StandardClaims: jwt.StandardClaims{
+			Issuer:    JWT_ISSUER,
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24)).Unix(),
 		},
 	}
 
 	refreshClaims := &JwtCustomClaims{
 		StandardClaims: jwt.StandardClaims{
+			Issuer:    JWT_ISSUER,
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(168)).Unix(),
 		},
 	}
@@ -60,22 +66,33 @@ func (t *tokenProvider) GenerateAccessToken(username string) Token {
 
 	if err != nil {
 		log.Error("Got error when generate access token. Error: ", err)
-		return Token{}
+		return TokenData{}
 	}
 
-	return Token{
-		AccessToken: token,
+	return TokenData{
+		AccessToken:  token,
 		RefreshToken: refreshToken,
-		ExpiresAt: claims.StandardClaims.ExpiresAt,
+		ExpiresAt:    claims.StandardClaims.ExpiresAt,
 	}
-}
-
-// IsTokenExpired implements TokenProvider
-func (t *tokenProvider) IsTokenExpired(claims *JwtCustomClaims) {
-	panic("unimplemented")
 }
 
 // ValidateAccessToken implements TokenProvider
-func (t *tokenProvider) ValidateAccessToken(token string) (claims *JwtCustomClaims, err string) {
-	panic("unimplemented")
+func (t *tokenProvider) ValidateAccessToken(accessToken string) {
+	authentication, err := jwt.ParseWithClaims(accessToken, &JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(JWT_SIGNED_KEY), nil
+	})
+
+	if err != nil {
+		log.Error("Got error when parse access token. ", err)
+		exception.ThrowNewAppException(respkey.Unauthorized)
+	}
+
+	claims, ok := authentication.Claims.(*JwtCustomClaims)
+	if !ok {
+		exception.ThrowNewAppException_(respkey.Unauthorized.GetKey(), "Access token is invalid")
+	}
+
+	if claims.ExpiresAt < time.Now().Local().Unix() {
+		exception.ThrowNewAppException_(respkey.Unauthorized.GetKey(), "Access token is expired")
+	}
 }

@@ -10,18 +10,18 @@ import (
 )
 
 type Initialization struct {
-	db         			*gorm.DB
-	authorRepo 			repository.AuthorRepository
-	userRepo			repository.UserRepository
+	db         *gorm.DB
+	authorRepo repository.AuthorRepository
+	userRepo   repository.UserRepository
 
-	tokenUtil			component.TokenProvider
-	
-	authSvc				service.AuthService
-	authorSvc  			service.AuthorService
-	userSvc				service.UserService
+	TokenUtil component.TokenProvider
 
-	AuthCtrl			controller.AuthController
-	AuthorCtrl 			controller.AuthorController
+	authSvc   service.AuthService
+	authorSvc service.AuthorService
+	userSvc   service.UserService
+
+	AuthCtrl   controller.AuthController
+	AuthorCtrl controller.AuthorController
 }
 
 func Init() *Initialization {
@@ -41,15 +41,15 @@ func Init() *Initialization {
 	return &Initialization{
 		db:         db,
 		authorRepo: authorRepo,
-		userRepo: userRepo,
+		userRepo:   userRepo,
 
-		authSvc: authSvc,
-		authorSvc:  authorSvc,
-		userSvc: userSvc,
+		authSvc:   authSvc,
+		authorSvc: authorSvc,
+		userSvc:   userSvc,
 
-		tokenUtil: tokenUtil,
-		
-		AuthCtrl: authCtrl,
+		TokenUtil: tokenUtil,
+
+		AuthCtrl:   authCtrl,
 		AuthorCtrl: authorCtrl,
 	}
 }

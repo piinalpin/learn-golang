@@ -1,4 +1,4 @@
-package respkey
+package constant
 
 type ResponseKey int
 
