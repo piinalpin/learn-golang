@@ -35,7 +35,7 @@ func AuthorServiceInit(r repository.AuthorRepository) AuthorService {
 func (a *authorService) CreateAuthor(c *gin.Context) {
 	defer exception.AppExceptionHandler(c)
 
-	log.Info("Create user")
+	log.Info("Create author")
 	var authorForm form.AuthorForm
 	var author model.Author
 	validator.BindJSON(c, &authorForm)
