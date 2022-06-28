@@ -3,7 +3,10 @@ package service
 import (
 	"learn-rest-api/cmd/app/component"
 	respkey "learn-rest-api/cmd/app/constant"
+	"learn-rest-api/cmd/app/exception"
+	"learn-rest-api/cmd/app/form"
 	"learn-rest-api/cmd/app/repository"
+	"learn-rest-api/cmd/app/validator"
 	"learn-rest-api/pkg"
 	"net/http"
 
@@ -29,8 +32,24 @@ func AuthServiceInit(t component.TokenProvider, u repository.UserRepository) Aut
 
 // Login implements AuthService
 func (a *authService) Login(c *gin.Context) {
-	log.Info("Begin login")
+	defer exception.AppExceptionHandler(c)
+	log.Info("Begin execute login")
+	var authForm form.LoginForm
+	validator.BindJSON(c, &authForm)
+	
+	log.Debug("Find user by username: ", authForm.Username)
+	user, err := a.userRepo.FindUserByUsername(authForm.Username)
 
-	token := a.tokenUtil.GenerateAccessToken("anyuser")
+	if err != nil {
+		log.Error("Error when find user : ", err)
+		exception.ThrowNewAppException(respkey.Unauthorized)
+	}
+
+	if !component.Matches(user.Password, authForm.Password) {
+		log.Error("Password not match")
+		exception.ThrowNewAppException(respkey.Unauthorized)
+	}
+
+	token := a.tokenUtil.GenerateAccessToken(user.Username)
 	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, token))
 }
