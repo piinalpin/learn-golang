@@ -20,6 +20,7 @@ func Router(init *config.Initialization) *gin.Engine {
 	var auth = router.Group("/auth")
 	{
 		auth.POST("/login", init.AuthCtrl.Login)
+		auth.POST("/refresh", init.AuthCtrl.RefreshToken)
 	}
 
 	var api = router.Group("/api")

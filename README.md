@@ -30,6 +30,8 @@ This project is documentation of my learning Golang with the best practice based
 - [Logrus](https://pkg.go.dev/github.com/sirupsen/logrus)
 - Containerized Support
 - Read Environment Variables
+- [Json Web Token](https://pkg.go.dev/github.com/golang-jwt/jwt/v4)
+- [Redis client for Go](https://github.com/go-redis/redis)
 
 ## Usage
 
@@ -59,6 +61,8 @@ The command is :
 - `make clean` to clean package and remove binary file
 - `make docker` it will execute command `clean` and `build` and then build image with `docker` command
 - `make podman` it will execute command `clean` and `build` and then build image with `podman` command
+
+**Note :** Run your MySQL Database and Redis Server first before running the application
 
 Run application directly
 ```bash
@@ -159,3 +163,6 @@ podman run -d --name goapp -p 8080:8080 --env-file=dev.env --network my-network 
 ## Reference
 - [Dasar Pemrograman Golang](https://dasarpemrogramangolang.novalagung.com/)
 - [Golang: gorm with MySQL and gin](https://blog.canopas.com/golang-gorm-with-mysql-and-gin-ab876f406244)
+- [Using JWT for Authentication in a Golang Application](https://codeburst.io/using-jwt-for-authentication-in-a-golang-application-e0357d579ce2)
+- [Preloading (Eager Loading)](https://gorm.io/docs/preload.html)
+- [How to parse JSON string to struct](https://stackoverflow.com/questions/47270595/how-to-parse-json-string-to-struct)

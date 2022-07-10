@@ -16,6 +16,7 @@ import (
 
 type AuthService interface {
 	Login(c *gin.Context)
+	RefreshToken(c *gin.Context)
 }
 
 type authService struct {
@@ -36,7 +37,7 @@ func (a *authService) Login(c *gin.Context) {
 	log.Info("Begin execute login")
 	var authForm form.LoginForm
 	validator.BindJSON(c, &authForm)
-	
+
 	log.Debug("Find user by username: ", authForm.Username)
 	user, err := a.userRepo.FindUserByUsername(authForm.Username)
 
@@ -50,6 +51,17 @@ func (a *authService) Login(c *gin.Context) {
 		exception.ThrowNewAppException(respkey.Unauthorized)
 	}
 
-	token := a.tokenUtil.GenerateAccessToken(user.Username)
+	token := a.tokenUtil.GenerateAccessToken(user)
+	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, token))
+}
+
+// RefreshToken implements AuthService
+func (a *authService) RefreshToken(c *gin.Context) {
+	defer exception.AppExceptionHandler(c)
+
+	var refreshTokenForm form.RefreshTokenForm
+	validator.BindJSON(c, &refreshTokenForm)
+
+	token := a.tokenUtil.RefreshToken(refreshTokenForm.RefreshToken)
 	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, token))
 }

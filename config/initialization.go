@@ -6,15 +6,20 @@ import (
 	"learn-rest-api/cmd/app/repository"
 	"learn-rest-api/cmd/app/service"
 
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
 type Initialization struct {
-	db         *gorm.DB
-	authorRepo repository.AuthorRepository
-	userRepo   repository.UserRepository
+	db         		*gorm.DB
+	redis	  		*redis.Client
+	
+	authorRepo 		repository.AuthorRepository
+	userRepo   		repository.UserRepository
+	userRoleRepo	repository.UserRoleRepository
 
-	TokenUtil component.TokenProvider
+	TokenUtil 		component.TokenProvider
+	sessionStorage	component.SessionStorage
 
 	authSvc   service.AuthService
 	authorSvc service.AuthorService
@@ -27,10 +32,13 @@ type Initialization struct {
 func Init() *Initialization {
 	InitLog()
 	db := InitDB()
+	redis := InitRedis()
 	authorRepo := repository.AuthorRepositoryInit(db)
 	userRepo := repository.UserRepositoryInit(db)
+	userRoleRepo := repository.UserRoleRepositoryInit(db)
 
-	tokenUtil := component.TokenProviderInit(userRepo)
+	sessionStorage := component.SessionStorageInit(redis)
+	tokenUtil := component.TokenProviderInit(userRepo, sessionStorage)
 
 	authSvc := service.AuthServiceInit(tokenUtil, userRepo)
 	authorSvc := service.AuthorServiceInit(authorRepo)
@@ -39,17 +47,20 @@ func Init() *Initialization {
 	authCtrl := controller.AuthControllerInit(authSvc)
 	authorCtrl := controller.AuthorControllerInit(authorSvc)
 	return &Initialization{
-		db:         db,
-		authorRepo: authorRepo,
-		userRepo:   userRepo,
+		db:         	db,
+		redis:	  		redis,
+		authorRepo: 	authorRepo,
+		userRepo:   	userRepo,
+		userRoleRepo: 	userRoleRepo,
 
-		authSvc:   authSvc,
-		authorSvc: authorSvc,
-		userSvc:   userSvc,
+		authSvc:   		authSvc,
+		authorSvc: 		authorSvc,
+		userSvc:   		userSvc,
 
-		TokenUtil: tokenUtil,
+		TokenUtil: 		tokenUtil,
+		sessionStorage: sessionStorage,
 
-		AuthCtrl:   authCtrl,
-		AuthorCtrl: authorCtrl,
+		AuthCtrl:   	authCtrl,
+		AuthorCtrl: 	authorCtrl,
 	}
 }

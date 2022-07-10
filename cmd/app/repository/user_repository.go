@@ -25,7 +25,7 @@ func UserRepositoryInit(db *gorm.DB) UserRepository {
 // FindUserByUsername implements UserRepository
 func (u *userRepository) FindUserByUsername(username string) (model.User, error) {
 	var user model.User
-	var err = u.db.Where("username = ?", username).First(&user).Error
+	var err = u.db.Preload("Roles").Where("username = ?", username).First(&user).Error
 	if err != nil {
 		log.Error("Got an error finding user by username. Error: ", err)
 		return model.User{}, err
