@@ -19,13 +19,19 @@ func AppExceptionHandler(c *gin.Context) {
 		msg := strings.Trim(strArr[1], " ")
 
 		switch key {
-			case 
-				respkey.DataNotFound.GetKey(),
-				respkey.InvalidRequest.GetKey():
-				c.JSON(http.StatusBadRequest, pkg.BuildResponse_(key, msg, pkg.Null()))
-			default:
-				c.JSON(http.StatusInternalServerError, pkg.BuildResponse_(respkey.UnknownError.GetKey(), msg, pkg.Null()))
+		case
+			respkey.DataNotFound.GetKey(),
+			respkey.InvalidRequest.GetKey():
+			c.JSON(http.StatusBadRequest, pkg.BuildResponse_(key, msg, pkg.Null()))
+			c.Abort()
+		case
+			respkey.Unauthorized.GetKey():
+			c.JSON(http.StatusUnauthorized, pkg.BuildResponse_(key, msg, pkg.Null()))
+			c.Abort()
+		default:
+			c.JSON(http.StatusInternalServerError, pkg.BuildResponse_(respkey.UnknownError.GetKey(), msg, pkg.Null()))
+			c.Abort()
 		}
-		
+
 	}
 }

@@ -1,6 +1,7 @@
 package route
 
 import (
+	"learn-rest-api/cmd/app/middleware"
 	"learn-rest-api/config"
 	"net/http"
 
@@ -12,14 +13,20 @@ func Router(init *config.Initialization) *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
+	router.GET("", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"message": "ok"})
+	})
+
+	var auth = router.Group("/auth")
+	{
+		auth.POST("/login", init.AuthCtrl.Login)
+		auth.POST("/refresh", init.AuthCtrl.RefreshToken)
+	}
+
 	var api = router.Group("/api")
 	{
-		
-		api.GET("", func(ctx *gin.Context) {
-			ctx.JSON(http.StatusOK, gin.H{"message": "ok"})
-		})
 
-		var author = api.Group("/author")
+		var author = api.Group("/author").Use(middleware.Authorization(init.TokenUtil))
 		{
 			author.GET("", init.AuthorCtrl.GetAllAuthor)
 			author.POST("", init.AuthorCtrl.CreateAuthor)

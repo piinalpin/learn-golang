@@ -3,7 +3,7 @@ package pkg
 import (
 	"time"
 	"learn-rest-api/cmd/app/model/base"
-	"learn-rest-api/cmd/app/constant"
+	respkey "learn-rest-api/cmd/app/constant"
 )
 
 func Null() interface{} {

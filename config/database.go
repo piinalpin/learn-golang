@@ -11,8 +11,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var Db *gorm.DB
-
 func InitDB() *gorm.DB {
 	var db = connectDB()
 	return db
@@ -21,7 +19,7 @@ func InitDB() *gorm.DB {
 func connectDB() *gorm.DB {
 	godotenv.Load()
 	var err error
-	var dsn = os.ExpandEnv("${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME}?parseTime=true&loc=Local")
+	var dsn = os.ExpandEnv("${datasource.username}:${datasource.password}@tcp(${datasource.url})/${datasource.name}?parseTime=true&loc=Local")
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
