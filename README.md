@@ -32,6 +32,7 @@ This project is documentation of my learning Golang with the best practice based
 - Read Environment Variables
 - [Json Web Token](https://pkg.go.dev/github.com/golang-jwt/jwt/v4)
 - [Redis client for Go](https://github.com/go-redis/redis)
+- Custom `Type Converter` like `ModelMapper` in Spring Boot
 
 ## Usage
 
@@ -166,3 +167,4 @@ podman run -d --name goapp -p 8080:8080 --env-file=dev.env --network my-network 
 - [Using JWT for Authentication in a Golang Application](https://codeburst.io/using-jwt-for-authentication-in-a-golang-application-e0357d579ce2)
 - [Preloading (Eager Loading)](https://gorm.io/docs/preload.html)
 - [How to parse JSON string to struct](https://stackoverflow.com/questions/47270595/how-to-parse-json-string-to-struct)
+- [Golang : Is conversion between different struct types possible?](https://stackoverflow.com/questions/24613271/golang-is-conversion-between-different-struct-types-possible)
