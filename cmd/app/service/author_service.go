@@ -2,10 +2,9 @@ package service
 
 import (
 	respkey "learn-rest-api/cmd/app/constant"
+	"learn-rest-api/cmd/app/domain/dao"
 	"learn-rest-api/cmd/app/exception"
-	"learn-rest-api/cmd/app/factory"
 	"learn-rest-api/cmd/app/form"
-	"learn-rest-api/cmd/app/model"
 	"learn-rest-api/cmd/app/repository"
 	"learn-rest-api/cmd/app/validator"
 	"learn-rest-api/pkg"
@@ -37,14 +36,13 @@ func (a *authorService) CreateAuthor(c *gin.Context) {
 
 	log.Info("Create author")
 	var authorForm form.AuthorForm
-	var author model.Author
 	validator.BindJSON(c, &authorForm)
 	
 	log.Debug("Author form:: ", authorForm)
-	author = factory.AuthorModelFactory(authorForm)
+	author, _ := pkg.TypeConverter[dao.Author](&authorForm)
 
 	log.Info("Saving author")
-	author = a.repository.SaveAuthor(&author)
+	a.repository.SaveAuthor(author)
 	c.JSON(http.StatusOK, pkg.BuildResponse(respkey.Success, author))
 }
 

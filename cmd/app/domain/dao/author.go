@@ -1,7 +1,7 @@
-package model
+package dao
 
 import (
-	"learn-rest-api/cmd/app/model/base"
+	"learn-rest-api/cmd/app/domain/base"
 )
 
 type Author struct {

@@ -1,9 +1,9 @@
 package pkg
 
 import (
-	"time"
-	"learn-rest-api/cmd/app/model/base"
 	respkey "learn-rest-api/cmd/app/constant"
+	"learn-rest-api/cmd/app/domain/base"
+	"time"
 )
 
 func Null() interface{} {

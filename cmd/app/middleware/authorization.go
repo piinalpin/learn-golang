@@ -6,6 +6,8 @@ import (
 	"learn-rest-api/cmd/app/exception"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +22,9 @@ func Authorization(t component.TokenProvider) gin.HandlerFunc {
 			exception.ThrowNewAppException(constant.Unauthorized)
 		}
 
-		t.ValidateAccessToken(token)
+		claims := t.ValidateAccessToken(token)
+		log.Debug("Claims: ", claims)
+		c.Set(constant.JwtClaims.GetContextKey(), claims)
 		c.Next()
 	}
 }

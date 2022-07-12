@@ -1,8 +1,8 @@
-package model
+package dao
 
 import (
 	"encoding/json"
-	"learn-rest-api/cmd/app/model/base"
+	"learn-rest-api/cmd/app/domain/base"
 )
 
 type User struct {
