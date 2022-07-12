@@ -1,14 +1,14 @@
 package repository
 
 import (
-	"learn-rest-api/cmd/app/model"
+	"learn-rest-api/cmd/app/domain/dao"
 
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
 type UserRoleRepository interface {
-	SaveUserRole(m *model.UserRole) (model.UserRole, error)
+	SaveUserRole(m *dao.UserRole) (dao.UserRole, error)
 }
 
 type userRoleRepository struct {
@@ -16,16 +16,16 @@ type userRoleRepository struct {
 }
 
 func UserRoleRepositoryInit(db *gorm.DB) UserRoleRepository {
-	db.AutoMigrate(&model.UserRole{})
+	db.AutoMigrate(&dao.UserRole{})
 	return &userRoleRepository{db: db}
 }
 
 // SaveUserRole implements UserRoleRepository
-func (u *userRoleRepository) SaveUserRole(m *model.UserRole) (model.UserRole, error) {
+func (u *userRoleRepository) SaveUserRole(m *dao.UserRole) (dao.UserRole, error) {
 	var err = u.db.Save(m).Error
 	if err != nil {
 		log.Error("Got an error when save user role. Error: ", err)
-		return model.UserRole{}, err
+		return dao.UserRole{}, err
 	}
 	return *m, nil
 }

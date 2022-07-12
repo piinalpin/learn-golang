@@ -2,8 +2,8 @@ package component
 
 import (
 	"learn-rest-api/cmd/app/constant"
+	"learn-rest-api/cmd/app/domain/dao"
 	"learn-rest-api/cmd/app/exception"
-	"learn-rest-api/cmd/app/model"
 	"learn-rest-api/cmd/app/repository"
 	"os"
 	"strconv"
@@ -34,7 +34,7 @@ type tokenProvider struct {
 }
 
 type TokenProvider interface {
-	GenerateAccessToken(user model.User) TokenData
+	GenerateAccessToken(user dao.User) TokenData
 	ValidateAccessToken(accessToken string) *JwtCustomClaims
 	RefreshToken(refreshToken string) TokenData
 }
@@ -57,7 +57,7 @@ func TokenProviderInit(r repository.UserRepository, ss SessionStorage) TokenProv
 }
 
 // GenerateAccessToken implements TokenProvider
-func (t *tokenProvider) GenerateAccessToken(user model.User) TokenData {
+func (t *tokenProvider) GenerateAccessToken(user dao.User) TokenData {
 	var rolesArray []string
 
 	for i := 0; i < len(user.Roles); i++ {
@@ -91,11 +91,11 @@ func (t *tokenProvider) GenerateAccessToken(user model.User) TokenData {
 		return TokenData{}
 	}
 
-	tokenMetadata := model.TokenMetadata{
+	tokenMetadata := dao.TokenMetadata{
 		User: user,
 	}
 
-	refreshTokenMetadata := model.RefreshTokenMetadata{
+	refreshTokenMetadata := dao.RefreshTokenMetadata{
 		Username: user.Username,
 		AccessTokenUuid: claims.Uuid,
 	}
@@ -141,7 +141,7 @@ func (t *tokenProvider) RefreshToken(refreshToken string) TokenData {
 
 	log.Info("Getting token metadata from cache")
 
-	var refreshTokenMetadata model.RefreshTokenMetadata
+	var refreshTokenMetadata dao.RefreshTokenMetadata
 	err := t.sessionStorage.GetCache(constant.RefreshTokenSession.GetCacheName(), claims.Uuid, &refreshTokenMetadata)
 	if err != nil {
 		exception.ThrowNewAppException_(constant.Unauthorized.GetKey(), constant.Unauthorized.GetMessage())

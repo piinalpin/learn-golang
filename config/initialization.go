@@ -27,6 +27,7 @@ type Initialization struct {
 
 	AuthCtrl   controller.AuthController
 	AuthorCtrl controller.AuthorController
+	UserCtrl   controller.UserController
 }
 
 func Init() *Initialization {
@@ -42,10 +43,11 @@ func Init() *Initialization {
 
 	authSvc := service.AuthServiceInit(tokenUtil, userRepo)
 	authorSvc := service.AuthorServiceInit(authorRepo)
-	userSvc := service.UserServiceInit(userRepo)
+	userSvc := service.UserServiceInit(userRepo, sessionStorage)
 
 	authCtrl := controller.AuthControllerInit(authSvc)
 	authorCtrl := controller.AuthorControllerInit(authorSvc)
+	userCtrl := controller.UserControllerInit(userSvc)
 	return &Initialization{
 		db:         	db,
 		redis:	  		redis,
@@ -62,5 +64,6 @@ func Init() *Initialization {
 
 		AuthCtrl:   	authCtrl,
 		AuthorCtrl: 	authorCtrl,
+		UserCtrl:  		userCtrl,
 	}
 }

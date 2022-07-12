@@ -32,6 +32,11 @@ func Router(init *config.Initialization) *gin.Engine {
 			author.POST("", init.AuthorCtrl.CreateAuthor)
 		}
 
+		var user = api.Group("/user").Use(middleware.Authorization(init.TokenUtil))
+		{
+			user.GET("/me", init.UserCtrl.Me)
+		}
+
 	}
 
 	return router

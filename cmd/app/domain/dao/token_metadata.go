@@ -1,4 +1,4 @@
-package model
+package dao
 
 type TokenMetadata struct {
 	User		User 		`json:"user"`
