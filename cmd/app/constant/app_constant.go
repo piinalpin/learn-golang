@@ -4,6 +4,7 @@ type HeadersName int
 type HeadersPrefix int
 type CacheName int
 type ContextKey int
+type Role int
 
 const (
 	Authorization 		HeadersName = iota + 1
@@ -23,6 +24,11 @@ const (
 	JwtClaims				ContextKey = iota + 1
 )
 
+const (
+	Admin Role = iota + 1
+	Finance
+)
+
 func (h HeadersName) GetHeadersName() string {
 	return [...] string{"Authorization"}[h-1]
 }
@@ -37,4 +43,8 @@ func (c CacheName) GetCacheName() string {
 
 func (c ContextKey) GetContextKey() string {
 	return [...] string{"Jwt-Claims"}[c-1]
+}
+
+func (r Role) GetRole() string {
+	return [...] string{"ROLE_ADMIN", "ROLE_FINANCE"}[r-1]
 }

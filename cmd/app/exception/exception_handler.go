@@ -28,6 +28,10 @@ func AppExceptionHandler(c *gin.Context) {
 			respkey.Unauthorized.GetKey():
 			c.JSON(http.StatusUnauthorized, pkg.BuildResponse_(key, msg, pkg.Null()))
 			c.Abort()
+		case
+			respkey.AccessDenied.GetKey():
+			c.JSON(http.StatusForbidden, pkg.BuildResponse_(key, msg, pkg.Null()))
+			c.Abort()
 		default:
 			c.JSON(http.StatusInternalServerError, pkg.BuildResponse_(respkey.UnknownError.GetKey(), msg, pkg.Null()))
 			c.Abort()
