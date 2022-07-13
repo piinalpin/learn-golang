@@ -1,6 +1,7 @@
 package route
 
 import (
+	"learn-rest-api/cmd/app/constant"
 	"learn-rest-api/cmd/app/middleware"
 	"learn-rest-api/config"
 	"net/http"
@@ -47,6 +48,7 @@ func Router(init *config.Initialization) *gin.Engine {
 	{
 
 		var author = api.Group("/author").Use(middleware.Bearer(init.TokenUtil))
+		author.Use(middleware.RoleBasedAccessControl(constant.Admin.GetRole()))
 		{
 			author.GET("", init.AuthorCtrl.GetAllAuthor)
 			author.POST("", init.AuthorCtrl.CreateAuthor)

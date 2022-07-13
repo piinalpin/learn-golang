@@ -34,6 +34,7 @@ This project is documentation of my learning Golang with the best practice based
 - [Redis client for Go](https://github.com/go-redis/redis)
 - Custom `Type Converter` like `ModelMapper` in Spring Boot
 - [Gin-Contrib CORS Filter](https://github.com/gin-contrib/cors)
+- Role Based Access Controll
 
 ## Usage
 
