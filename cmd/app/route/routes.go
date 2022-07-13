@@ -17,7 +17,7 @@ func Router(init *config.Initialization) *gin.Engine {
 		ctx.JSON(http.StatusOK, gin.H{"message": "ok"})
 	})
 
-	var auth = router.Group("/auth")
+	var auth = router.Group("/auth").Use(middleware.Basic())
 	{
 		auth.POST("/login", init.AuthCtrl.Login)
 		auth.POST("/refresh", init.AuthCtrl.RefreshToken)
@@ -26,13 +26,13 @@ func Router(init *config.Initialization) *gin.Engine {
 	var api = router.Group("/api")
 	{
 
-		var author = api.Group("/author").Use(middleware.Authorization(init.TokenUtil))
+		var author = api.Group("/author").Use(middleware.Bearer(init.TokenUtil))
 		{
 			author.GET("", init.AuthorCtrl.GetAllAuthor)
 			author.POST("", init.AuthorCtrl.CreateAuthor)
 		}
 
-		var user = api.Group("/user").Use(middleware.Authorization(init.TokenUtil))
+		var user = api.Group("/user").Use(middleware.Bearer(init.TokenUtil))
 		{
 			user.GET("/me", init.UserCtrl.Me)
 		}
