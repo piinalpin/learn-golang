@@ -1,3 +1,5 @@
 bin/
 logs/*.log
 .vscode/*.log
+
+env/prod.env

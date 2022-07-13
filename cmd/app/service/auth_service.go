@@ -46,7 +46,7 @@ func (a *authService) Login(c *gin.Context) {
 		exception.ThrowNewAppException(respkey.Unauthorized)
 	}
 
-	if !component.Matches(user.Password, authForm.Password) {
+	if !component.PasswordMatches(user.Password, authForm.Password) {
 		log.Error("Password not match")
 		exception.ThrowNewAppException(respkey.Unauthorized)
 	}

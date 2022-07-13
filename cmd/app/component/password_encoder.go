@@ -3,19 +3,16 @@ package component
 import (
 	respkey "learn-rest-api/cmd/app/constant"
 	"learn-rest-api/cmd/app/exception"
-	"os"
-	"strconv"
 
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Encode(password string) string {
+func PasswordEncode(password string) string {
 	godotenv.Load()
-	
-	bcryptDefaultCost, _ := strconv.Atoi(os.Getenv("application.bcrypt.default-cost"))
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcryptDefaultCost)
+
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 15)
 	if err != nil {
 		log.Error("Failed generate hash password.")
 		exception.ThrowNewAppException(respkey.UnknownError)
@@ -24,7 +21,7 @@ func Encode(password string) string {
 	return string(bytes)
 }
 
-func Matches(hashedPassword string, password string) bool {
+func PasswordMatches(hashedPassword string, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 	if err != nil {
 		log.Error("Failed compare hash password.")

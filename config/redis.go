@@ -14,10 +14,15 @@ func InitRedis() *redis.Client {
 	godotenv.Load()
 
 	var dsn = os.ExpandEnv("${redis.host}:${redis.port}")
+	
+	user := os.Getenv("redis.user")
+	password := os.Getenv("redis.password")
 
 	client := redis.NewClient(&redis.Options{
 		Addr: dsn,
 		DB: 0,
+		Username: user,
+		Password: password,
 	})
 
 	var ctx = context.Background()
