@@ -44,11 +44,11 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           env_file: dev.env
         env:
-          datasource.name: ${{secrets.DATASOURCE_NAME}}
-          datasource.password: ${{secrets.DATASOURCE_PASSWORD}}
-          datasource.url: ${{secrets.DATASOURCE_URL}}
-          datasource.username: ${{secrets.DATASOURCE_USERNAME}}
-          redis.host: ${{secrets.REDIS_HOST}}
-          redis.password: ${{secrets.REDIS_PASSWORD}}
-          redis.port: ${{secrets.REDIS_PORT}}
-          redis.user: ${{secrets.REDIS_USER}}
+          DATASOURCE_NAME: ${{secrets.DATASOURCE_NAME}}
+          DATASOURCE_PASSWORD: ${{secrets.DATASOURCE_PASSWORD}}
+          DATASOURCE_URL: ${{secrets.DATASOURCE_URL}}
+          DATASOURCE_USERNAME: ${{secrets.DATASOURCE_USERNAME}}
+          REDIS_HOST: ${{secrets.REDIS_HOST}}
+          REDIS_PASSWORD: ${{secrets.REDIS_PASSWORD}}
+          REDIS_PORT: ${{secrets.REDIS_PORT}}
+          REDIS_USER: ${{secrets.REDIS_USER}}
