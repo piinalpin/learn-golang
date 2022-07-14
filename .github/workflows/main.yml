@@ -15,6 +15,9 @@ jobs:
       - run: echo $CURRENT_DATE
         env:
           CURRENT_DATE: ${{ steps.current_date.outputs.date }}
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.18.3'
       - name: Build binary
         run: env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./bin/goapp -ldflags="-X 'main.buildDate=$CURRENT_DATE'"
       - name: Login to docker hub
