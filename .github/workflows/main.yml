@@ -1,4 +1,4 @@
-name: Learn Golang Pipeline
+name: Build
 
 on:
   push:
