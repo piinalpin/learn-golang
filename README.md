@@ -1,4 +1,4 @@
-# Sewa Space App - Learn Golang
+## Sewa Space App - Learn Golang
 ![main-workflow](https://github.com/piinalpin/learn-golang/actions/workflows/main.yml/badge.svg)
 
 ## Overview
