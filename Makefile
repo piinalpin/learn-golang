@@ -26,8 +26,8 @@ clean:
 	go clean
 	rm -rf ./bin/*
 
-podman: clean build
+podman: build
 	podman build -t docker.io/piinalpin/learn-goapp:latest --build-arg APP_NAME=goapp  . -f build/Dockerfile
 
-docker: clean build
+docker: build
 	docker build -t piinalpin/learn-goapp:latest --build-arg APP_NAME=goapp  . -f build/Dockerfile

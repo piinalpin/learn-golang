@@ -1,0 +1,50 @@
+name: Learn Golang Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - id: current_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
+      - run: echo $CURRENT_DATE
+        env:
+          CURRENT_DATE: ${{ steps.current_date.outputs.date }}
+      - name: Build binary
+        run: env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./bin/goapp -ldflags="-X 'main.buildDate=$CURRENT_DATE'"
+      - name: Login to docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build docker images
+        uses: docker/build-push-action@v2
+        with:
+          file: ./build/Dockerfile
+          context: .
+          push: true
+          tags: piinalpin/learn-goapp:latest
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: sewa-space
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          env_file: dev.env
+        env:
+          datasource.name: ${{secrets.DATASOURCE_NAME}}
+          datasource.password: ${{secrets.DATASOURCE_PASSWORD}}
+          datasource.url: ${{secrets.DATASOURCE_URL}}
+          datasource.username: ${{secrets.DATASOURCE_USERNAME}}
+          redis.host: ${{secrets.REDIS_HOST}}
+          redis.password: ${{secrets.REDIS_PASSWORD}}
+          redis.port: ${{secrets.REDIS_PORT}}
+          redis.user: ${{secrets.REDIS_USER}}
