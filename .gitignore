@@ -3,3 +3,5 @@ logs/*.log
 .vscode/*.log
 
 env/prod.env
+prod.env
+production.env
