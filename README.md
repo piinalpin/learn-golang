@@ -1,4 +1,5 @@
-# Learn RestFul API Golang using Gin
+# Sewa Space App - Learn Golang
+![main-workflow](https://github.com/piinalpin/learn-golang/actions/workflows/main.yml/badge.svg)
 
 ## Overview
 
