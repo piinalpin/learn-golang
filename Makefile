@@ -1,7 +1,7 @@
 .PHONY: build clean run test podman docker
 
 BUILD_DATE := $(shell date '+%Y-%m-%d %H:%M:%S')
-BIN := goapp
+BIN := sewa-space-core
 VERSION := 1.0.0
 TARGET_OS := linux
 TARGET_ARCH := amd64
@@ -15,6 +15,8 @@ linux					arm64 \
 linux					386 \
 windows					amd64 \
 windows					386 \
+darwin					amd64 \
+darwin					arm64 \
 
 build: clean
 	env CGO_ENABLED=0 GOOS=${TARGET_OS} GOARCH=${TARGET_ARCH} go build -o ./bin/${BIN} -ldflags="-X 'main.buildVersion=${VERSION}' -X 'main.buildDate=${BUILD_DATE}'"
