@@ -2,7 +2,7 @@ name: Build
 
 on:
   create:
-    tags:
+    release:
       - '*.*.*'
 
 env:
