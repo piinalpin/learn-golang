@@ -6,6 +6,7 @@ on:
 
 env:
   OUTPUT_FILIENAME: sewa-space-core
+  APP_VERSION: ${{ github.ref_name }}
   TARGET_OS: linux
   TARGET_ARCH: amd64
 
@@ -19,7 +20,7 @@ jobs:
       - run: echo $CURRENT_DATE
         env:
           CURRENT_DATE: ${{ steps.current_date.outputs.date }}
-      - run: echo "APP_VERSION=${GITHUB_REF/refs\/release\//}" >> $GITHUB_ENV
+      # - run: echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - run: echo $APP_VERSION
       # - uses: actions/setup-go@v2
       #   with:
