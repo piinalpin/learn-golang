@@ -66,7 +66,7 @@ jobs:
           goversion: '1.18.3'
           project_path: './'
           binary_name: ${{ env.OUTPUT_FILIENAME }}
-          extra_files: LICENSE README.md
+          extra_files: README.md
           release_tag: ${{ env.APP_VERSION }}
           asset_name: ${{ env.OUTPUT_FILIENAME }}-${{ matrix.goos }}-${{ matrix.goarch }}
   deploy:
