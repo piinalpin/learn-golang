@@ -37,7 +37,7 @@ jobs:
           file: ./build/Dockerfile
           context: .
           push: true
-          tags: piinalpin/learn-goapp:latest piinalpin/learn-goapp:${{ env.APP_VERSION }} 
+          tags: piinalpin/learn-goapp:latest, piinalpin/learn-goapp:${{ env.APP_VERSION }} 
           build-args: APP_NAME=${{ env.OUTPUT_FILIENAME }}
   deploy:
     runs-on: ubuntu-18.04
