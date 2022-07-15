@@ -3,11 +3,11 @@ name: Build
 on:
   create:
     tags:
-      - '*'
+      - '*.*.*'
 
 env:
   OUTPUT_FILIENAME: goapp
-  VERSION: ${GITHUB_REF#refs/tags/*/}
+  VERSION: ${{ github.ref }}
   TARGET_OS: linux
   TARGET_ARCH: amd64
 
