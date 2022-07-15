@@ -1,9 +1,8 @@
 name: Build
 
 on:
-  create:
-    release:
-      - '*.*.*'
+  release:
+    types: [created]
 
 env:
   OUTPUT_FILIENAME: sewa-space-core
