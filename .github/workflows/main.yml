@@ -20,11 +20,12 @@ jobs:
         env:
           CURRENT_DATE: ${{ steps.current_date.outputs.date }}
       - run: echo "APP_VERSION=${GITHUB_REF/refs\/release\//}" >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '1.18.3'
-      - name: Build binary
-        run: env CGO_ENABLED=0 GOOS=$TARGET_OS GOARCH=$TARGET_ARCH go build -o ./bin/$OUTPUT_FILIENAME -ldflags="-X 'main.buildVersion=$APP_VERSION' -X 'main.buildDate=$CURRENT_DATE'"
+      - run: echo $APP_VERSION
+      # - uses: actions/setup-go@v2
+      #   with:
+      #     go-version: '1.18.3'
+      # - name: Build binary
+      #   run: env CGO_ENABLED=0 GOOS=$TARGET_OS GOARCH=$TARGET_ARCH go build -o ./bin/$OUTPUT_FILIENAME -ldflags="-X 'main.buildVersion=$APP_VERSION' -X 'main.buildDate=$CURRENT_DATE'"
       # - name: Login to docker hub
       #   uses: docker/login-action@v1
       #   with:
