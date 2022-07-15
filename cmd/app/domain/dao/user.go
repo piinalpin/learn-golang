@@ -1,9 +1,6 @@
 package dao
 
-import (
-	"encoding/json"
-	"learn-rest-api/cmd/app/domain/base"
-)
+import "learn-rest-api/cmd/app/domain/base"
 
 type User struct {
 	base.BaseModel
@@ -16,8 +13,4 @@ type User struct {
 
 func (User) TableName() string {
 	return "M_USER"
-}
-
-func (u User) MarshalBinary() ([]byte, error) {
-	return json.Marshal(u)
 }
