@@ -171,3 +171,4 @@ podman run -d --name goapp -p 8080:8080 --env-file=dev.env --network my-network 
 - [Preloading (Eager Loading)](https://gorm.io/docs/preload.html)
 - [How to parse JSON string to struct](https://stackoverflow.com/questions/47270595/how-to-parse-json-string-to-struct)
 - [Golang : Is conversion between different struct types possible?](https://stackoverflow.com/questions/24613271/golang-is-conversion-between-different-struct-types-possible)
+- [Go Release Binaries](https://github.com/marketplace/actions/go-release-binaries)
