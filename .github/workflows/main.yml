@@ -61,8 +61,8 @@ jobs:
           goversion: '1.18.3'
           project_path: './'
           binary_name: ${{ env.OUTPUT_FILIENAME }}
-          extra_files: README.md
-          asset_name: ${{ env.OUTPUT_FILIENAME }}-${{ env.APP_VERSION }}.${{ matrix.goos }}-${{ matrix.goarch }}
+          extra_files: README.md .env
+          asset_name: ${{ env.OUTPUT_FILIENAME }}-${{ env.APP_VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}
   deploy:
     runs-on: ubuntu-18.04
     needs: archive
