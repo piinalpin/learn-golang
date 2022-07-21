@@ -51,6 +51,15 @@ func Router(init *config.Initialization) *gin.Engine {
 			user.GET("/me", init.UserCtrl.Me)
 		}
 
+		var coworkingSpace = api.Group("/coworking-space").Use(middleware.Bearer(init.TokenUtil))
+		{
+			coworkingSpace.GET("/", init.CoworkingSpaceCtrl.GetAll)
+			coworkingSpace.POST("/", init.CoworkingSpaceCtrl.Create)
+			coworkingSpace.GET("/:id", init.CoworkingSpaceCtrl.GetById)
+			coworkingSpace.PUT("/:id", init.CoworkingSpaceCtrl.Update)
+			coworkingSpace.DELETE("/:id", init.CoworkingSpaceCtrl.Delete)
+		}
+
 	}
 
 	return router

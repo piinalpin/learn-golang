@@ -11,20 +11,23 @@ import (
 )
 
 type Initialization struct {
-	db         		*gorm.DB
-	redis	  		*redis.Client
-	
-	userRepo   		repository.UserRepository
-	userRoleRepo	repository.UserRoleRepository
+	db    *gorm.DB
+	redis *redis.Client
 
-	TokenUtil 		component.TokenProvider
-	sessionStorage	component.SessionStorage
+	userRepo           	repository.UserRepository
+	userRoleRepo       	repository.UserRoleRepository
+	coworkingSpaceRepo 	repository.CoworkingSpaceRepository
 
-	authSvc   service.AuthService
-	userSvc   service.UserService
+	TokenUtil      		component.TokenProvider
+	sessionStorage 		component.SessionStorage
 
-	AuthCtrl   controller.AuthController
-	UserCtrl   controller.UserController
+	authSvc           	service.AuthService
+	userSvc           	service.UserService
+	coworkingSpaceSvc 	service.CoworkingSpaceService
+
+	AuthCtrl           	controller.AuthController
+	UserCtrl           	controller.UserController
+	CoworkingSpaceCtrl 	controller.CoworkingSpaceController
 }
 
 func Init() *Initialization {
@@ -33,28 +36,34 @@ func Init() *Initialization {
 	redis := InitRedis()
 	userRepo := repository.UserRepositoryInit(db)
 	userRoleRepo := repository.UserRoleRepositoryInit(db)
+	coworkingSpaceRepo := repository.CoworkingSpaceRepositoryInit(db)
 
 	sessionStorage := component.SessionStorageInit(redis)
 	tokenUtil := component.TokenProviderInit(userRepo, sessionStorage)
 
 	authSvc := service.AuthServiceInit(tokenUtil, userRepo)
 	userSvc := service.UserServiceInit(userRepo, sessionStorage)
+	coworkingSpaceSvc := service.CoworkingSpaceServiceInit(coworkingSpaceRepo)
 
 	authCtrl := controller.AuthControllerInit(authSvc)
 	userCtrl := controller.UserControllerInit(userSvc)
+	coworkingSpaceCtrl := controller.CoworkingSpaceControllerInit(coworkingSpaceSvc)
 	return &Initialization{
-		db:         	db,
-		redis:	  		redis,
-		userRepo:   	userRepo,
-		userRoleRepo: 	userRoleRepo,
+		db:           db,
+		redis:        redis,
+		userRepo:     userRepo,
+		userRoleRepo: userRoleRepo,
+		coworkingSpaceRepo: coworkingSpaceRepo,
 
-		authSvc:   		authSvc,
-		userSvc:   		userSvc,
+		authSvc: authSvc,
+		userSvc: userSvc,
+		coworkingSpaceSvc: coworkingSpaceSvc,
 
-		TokenUtil: 		tokenUtil,
+		TokenUtil:      tokenUtil,
 		sessionStorage: sessionStorage,
 
-		AuthCtrl:   	authCtrl,
-		UserCtrl:  		userCtrl,
+		AuthCtrl: authCtrl,
+		UserCtrl: userCtrl,
+		CoworkingSpaceCtrl: coworkingSpaceCtrl,
 	}
 }
