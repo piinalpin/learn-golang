@@ -2,8 +2,7 @@ package pkg
 
 import "encoding/json"
 
-func TypeConverter[T any](source any) (*T, bool) {
-	var result T
+func TypeConverter[T any](source any, destination *T) (*T, bool) {
 	isValid := true
 
 	v, err := json.Marshal(source)
@@ -11,10 +10,10 @@ func TypeConverter[T any](source any) (*T, bool) {
 		return nil, !isValid
 	}
 		
-	err = json.Unmarshal(v, &result)
+	err = json.Unmarshal(v, &destination)
 	if err != nil {
 		return nil, !isValid
 	}
 
-	return &result, isValid
+	return destination, isValid
 }
