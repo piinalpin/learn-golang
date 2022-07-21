@@ -49,7 +49,6 @@ func (u *userService) Me(c *gin.Context) {
 		exception.ThrowNewAppException(constant.Unauthorized)
 	}
 
-	userDto, _ := pkg.TypeConverter[dto.UserDto](&tokenMetadata.User)
-
+	userDto, _ := pkg.TypeConverter(&tokenMetadata.User, &dto.UserDto{})
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, userDto))
 }
