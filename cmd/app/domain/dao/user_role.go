@@ -6,8 +6,8 @@ import (
 
 type UserRole struct {
 	base.BaseModel
-	ID 				uint 	`json:"id" gorm:"primary_key; autoIncrement; not null"`
-	UserID			uint	`json:"user_id" gorm:"not null"`
+	ID 				int 	`json:"id" gorm:"primary_key; autoIncrement; not null"`
+	UserID			int	`json:"user_id" gorm:"not null"`
 	Role			string	`json:"role" gorm:"not null"`
 	User			User	`json:"-" gorm:"foreignkey:UserID"`
 }
